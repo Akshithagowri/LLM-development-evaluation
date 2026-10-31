@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EvalCore AI | LLM Deployment Evaluation Platform</title>
+  <meta name="description" content="Agentic AI platform to evaluate Local SLM, Private Cloud, and Hosted API deployments on quality, speed, cost, and security." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ── HEADER ── -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="17" stroke="url(#g1)" stroke-width="2"/>
+            <path d="M10 18C10 13.58 13.58 10 18 10V10C22.42 10 26 13.58 26 18V18C26 22.42 22.42 26 18 26V26" stroke="url(#g2)" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="4" fill="url(#g3)"/>
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+              <linearGradient id="g2" x1="10" y1="10" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+              <linearGradient id="g3" x1="14" y1="14" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">EvalCore AI</div>
+          <div class="brand-sub">Deployment Intelligence Platform</div>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#configure" class="nav-link active" onclick="scrollToSection('configure')">Configure</a>
+        <a href="#workflow"  class="nav-link"        onclick="scrollToSection('workflow')">Workflow</a>
+        <a href="#results"   class="nav-link"        onclick="scrollToSection('results')">Results</a>
+        <a href="#recommendation" class="nav-link"   onclick="scrollToSection('recommendation')">Recommend</a>
+      </nav>
+      <div class="header-badge"><span class="badge-dot"></span>Agentic AI · Live</div>
+    </div>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb-1"></div><div class="hero-orb orb-2"></div><div class="hero-orb orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-pill"><span class="pill-icon">⚡</span>Real Document Parsing · Real OpenAI API Calls</div>
+      <h1 class="hero-title">Which LLM Deployment<br/><span class="gradient-text">Fits Your Organization?</span></h1>
+      <p class="hero-desc">Upload your own documents. We extract real benchmark questions, call GPT-4o with your API key, measure <strong>actual quality and latency</strong>, and recommend the best deployment option with evidence.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="startEvaluation()" id="hero-start-btn"><span class="btn-icon">🚀</span>Launch Evaluation</button>
+        <button class="btn-ghost"   onclick="scrollToSection('configure')"><span class="btn-icon">⚙️</span>Configure First</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-val">6</span><span class="stat-lbl">AI Agents</span></div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat"><span class="stat-val">Real</span><span class="stat-lbl">API Calls</span></div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat"><span class="stat-val">RAG</span><span class="stat-lbl">Your Documents</span></div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat"><span class="stat-val">Live</span><span class="stat-lbl">Latency Measurement</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONFIGURE ── -->
+  <section class="section" id="configure">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div>
+        <h2 class="section-title">Configuration &amp; Input</h2>
+        <p class="section-sub">Set requirements, enter your API key, and upload internal documents</p>
+      </div>
+    </div>
+
+    <!-- API KEY BANNER -->
+    <div class="apikey-banner" id="apikey-banner">
+      <div class="apikey-left">
+        <div class="apikey-icon">🔑</div>
+        <div>
+          <div class="apikey-title">OpenAI API Key Required for Real Evaluation</div>
+          <div class="apikey-hint">Your key is used only in this browser session — never stored or sent anywhere except directly to OpenAI.</div>
+        </div>
+      </div>
+      <div class="apikey-right">
+        <div class="apikey-input-wrap">
+          <input type="password" id="openai-key" class="apikey-input" placeholder="sk-..." autocomplete="off" oninput="onKeyInput(this.value)" />
+          <button class="apikey-toggle" onclick="toggleKeyVis()" id="key-vis-btn">👁</button>
+        </div>
+        <div class="apikey-status" id="apikey-status">Not set — using simulation mode</div>
+      </div>
+    </div>
+
+    <div class="config-grid">
+
+      <!-- Requirements -->
+      <div class="config-card">
+        <div class="card-header">
+          <div class="card-icon org-icon">🏢</div>
+          <div><h3 class="card-title">Organization Requirements</h3><p class="card-hint">Set your priorities for evaluation</p></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Use Case</label>
+          <select class="form-select" id="use-case">
+            <option value="engineering">Internal Engineering Q&amp;A</option>
+            <option value="policy">Policy &amp; Compliance</option>
+            <option value="mixed" selected>Mixed Engineering + Policy</option>
+            <option value="hr">HR &amp; Operations</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Data Sensitivity Level</label>
+          <div class="radio-group">
+            <label class="radio-option"        id="sens-low"><input type="radio" name="sensitivity" value="low"    /> Low (Public/Internal)</label>
+            <label class="radio-option active"  id="sens-med"><input type="radio" name="sensitivity" value="medium" checked /> Medium (Confidential)</label>
+            <label class="radio-option"        id="sens-high"><input type="radio" name="sensitivity" value="high"   /> High (Restricted)</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monthly Budget Ceiling</label>
+          <div class="slider-wrap">
+            <input type="range" min="100" max="3000" value="800" class="form-slider" id="budget-slider" oninput="updateBudget(this.value)" />
+            <div class="slider-labels"><span>$100</span><span id="budget-val" class="slider-current">$800/mo</span><span>$3,000</span></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Max Latency Tolerance</label>
+          <div class="slider-wrap">
+            <input type="range" min="0.5" max="10" step="0.5" value="3" class="form-slider" id="latency-slider" oninput="updateLatency(this.value)" />
+            <div class="slider-labels"><span>0.5s</span><span id="latency-val" class="slider-current">3.0s</span><span>10s</span></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Benchmark Questions</label>
+          <select class="form-select" id="num-questions">
+            <option value="3">3 questions (fast — saves API cost)</option>
+            <option value="5" selected>5 questions (recommended)</option>
+            <option value="10">10 questions (thorough)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Model Config -->
+      <div class="config-card">
+        <div class="card-header">
+          <div class="card-icon model-icon">🤖</div>
+          <div><h3 class="card-title">Model Configuration</h3><p class="card-hint">Real calls use GPT-4o for Hosted API and quality judging. Local &amp; Private Cloud remain simulated (no local Ollama/cloud endpoint connected).</p></div>
+        </div>
+        <div class="model-tier" id="tier-local">
+          <div class="tier-badge local-badge">LOCAL SLM</div>
+          <div class="tier-info">
+            <div class="tier-label">🖥️ Ollama / llama3.2</div>
+            <div class="tier-desc">Simulated — on-prem data, realistic latency model</div>
+          </div>
+          <div class="tier-toggle"><div class="toggle active" onclick="toggleModel('local', this)" id="toggle-local"></div></div>
+        </div>
+        <div class="model-tier" id="tier-private">
+          <div class="tier-badge private-badge">PRIVATE CLOUD</div>
+          <div class="tier-info">
+            <div class="tier-label">☁️ HTTPX Endpoint</div>
+            <div class="tier-desc">Simulated — private cloud latency &amp; cost model</div>
+          </div>
+          <div class="tier-toggle"><div class="toggle active" onclick="toggleModel('private', this)" id="toggle-private"></div></div>
+        </div>
+        <div class="model-tier" id="tier-hosted">
+          <div class="tier-badge hosted-badge">HOSTED API</div>
+          <div class="tier-info">
+            <div class="tier-label">🌐 OpenAI GPT-4o</div>
+            <div class="tier-desc" id="hosted-tier-desc">Real API calls if key provided, else simulated</div>
+          </div>
+          <div class="tier-toggle"><div class="toggle active" onclick="toggleModel('hosted', this)" id="toggle-hosted"></div></div>
+        </div>
+        <div class="mode-info-box" id="mode-info-box">
+          <div class="mode-icon">💡</div>
+          <div class="mode-text" id="mode-text">Enter your OpenAI API key above to enable real GPT-4o calls and live latency measurement.</div>
+        </div>
+      </div>
+
+      <!-- Documents -->
+      <div class="config-card">
+        <div class="card-header">
+          <div class="card-icon doc-icon">📄</div>
+          <div><h3 class="card-title">Documents for RAG</h3><p class="card-hint">Upload .txt or .md files — questions are extracted from your real content</p></div>
+        </div>
+        <div class="upload-zone" id="upload-zone" onclick="triggerUpload()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+          <div class="upload-icon">📂</div>
+          <div class="upload-text">Drop .txt / .md files here or click to browse</div>
+          <div class="upload-hint">Questions will be extracted from your actual document content</div>
+          <input type="file" id="file-input" multiple accept=".txt,.md,.pdf" style="display:none" onchange="handleFiles(event)" />
+        </div>
+        <div class="doc-list" id="doc-list">
+          <div class="doc-item preset">
+            <span class="doc-icon">📋</span><span class="doc-name">engineering_standards.md</span><span class="doc-size">built-in</span>
+            <span class="doc-badge">Sample</span>
+          </div>
+          <div class="doc-item preset">
+            <span class="doc-icon">📋</span><span class="doc-name">data_security_policy.md</span><span class="doc-size">built-in</span>
+            <span class="doc-badge">Sample</span>
+          </div>
+        </div>
+        <div class="rag-stats" id="rag-stats">
+          <div class="rag-stat"><span id="chunk-count">0</span> Chunks</div>
+          <div class="rag-stat"><span id="q-count">0</span> Questions</div>
+          <div class="rag-stat"><span>In-browser</span> RAG</div>
+        </div>
+        <div class="doc-preview-box" id="doc-preview-box" style="display:none">
+          <div class="doc-preview-label">📝 Extracted Questions Preview</div>
+          <div class="doc-preview-list" id="doc-preview-list"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="start-row">
+      <button class="btn-primary btn-large" onclick="startEvaluation()" id="start-btn">
+        <span class="btn-icon">⚡</span>Start Agentic Evaluation
+      </button>
+      <div class="start-hint" id="start-hint">Configure above, then click to run all 6 agents</div>
+    </div>
+  </section>
+
+  <!-- ── WORKFLOW ── -->
+  <section class="section" id="workflow">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div><h2 class="section-title">Agent Orchestration</h2><p class="section-sub">LangGraph multi-agent workflow — 6 specialized agents running in sequence</p></div>
+    </div>
+    <div class="workflow-container">
+      <div class="workflow-pipeline" id="workflow-pipeline"></div>
+      <div class="workflow-log-panel">
+        <div class="log-header">
+          <span class="log-title">📡 Live Agent Log</span>
+          <span class="log-status" id="log-status">Idle</span>
+        </div>
+        <div class="log-body" id="log-body">
+          <div class="log-placeholder">Start evaluation to see live agent activity...</div>
+        </div>
+      </div>
+    </div>
+    <div class="overall-progress" id="overall-progress" style="display:none">
+      <div class="progress-label"><span id="progress-text">Initializing...</span><span id="progress-pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+  </section>
+
+  <!-- ── RESULTS ── -->
+  <section class="section" id="results" style="display:none">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div>
+        <h2 class="section-title">Evaluation Results</h2>
+        <div class="real-badge-row" id="real-badge-row"></div>
+        <p class="section-sub">Side-by-side performance comparison across all five dimensions</p>
+      </div>
+    </div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-header"><h3 class="chart-title">📊 Answer Quality Score</h3><div class="chart-legend" id="quality-legend"></div></div>
+        <canvas id="quality-chart" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header"><h3 class="chart-title">⚡ Response Latency (seconds)</h3><div class="chart-legend" id="latency-legend"></div></div>
+        <canvas id="latency-chart" height="260"></canvas>
+      </div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-header"><h3 class="chart-title">🕸️ Multi-Dimension Radar</h3></div>
+        <canvas id="radar-chart" height="320"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header"><h3 class="chart-title">💰 12-Month Cumulative Cost</h3></div>
+        <canvas id="cost-chart" height="320"></canvas>
+      </div>
+    </div>
+
+    <!-- Q&A Real Answers Panel (visible only if real API used) -->
+    <div class="qa-panel" id="qa-panel" style="display:none">
+      <div class="qa-panel-header">
+        <h3 class="chart-title">💬 Real GPT-4o Answers vs. Benchmark Questions</h3>
+        <span class="live-badge">🟢 LIVE</span>
+      </div>
+      <div class="qa-list" id="qa-list"></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header"><h3 class="chart-title">📋 Detailed Benchmark Results</h3><button class="btn-sm" onclick="downloadCSV()">⬇ Export CSV</button></div>
+      <div class="table-wrap"><table class="results-table" id="results-table"></table></div>
+    </div>
+    <div class="detail-grid" id="detail-grid"></div>
+  </section>
+
+  <!-- ── RECOMMENDATION ── -->
+  <section class="section" id="recommendation" style="display:none">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div><h2 class="section-title">Decision Agent Recommendation</h2><p class="section-sub">Evidence-based recommendation with full reasoning</p></div>
+    </div>
+    <div class="recommendation-layout">
+      <div class="rec-main" id="rec-main"></div>
+      <div class="rec-side">
+        <div class="scoring-card" id="scoring-card"></div>
+        <div class="report-card">
+          <div class="report-icon">📄</div>
+          <h3>Download Full Report</h3>
+          <p>Detailed analysis, all metrics, assumptions &amp; recommendation narrative</p>
+          <button class="btn-primary" onclick="generateReport()"><span class="btn-icon">⬇</span> Generate HTML Report</button>
+        </div>
+      </div>
+    </div>
+    <div class="matrix-card" id="matrix-card"></div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">EvalCore AI — Deployment Intelligence Platform</div>
+      <div class="footer-tech">FastAPI · LangGraph · Ollama · FAISS · OpenAI GPT-4o · Chart.js</div>
+      <div class="footer-note">Built for enterprise AI governance and informed deployment decisions.</div>
+    </div>
+  </footer>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
